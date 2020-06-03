@@ -161,5 +161,16 @@ end;
 
 
 
+Create or Replace function get_prodid(i_pname varchar2) RETURN int
+as 
+  v_prodid int;
+
+BEGIN
+  
+  Select prodid into v_prodid from products where pname = i_pname;
+  
+  return v_prodid; 
+  
+  end; -- Function Example
 
   
