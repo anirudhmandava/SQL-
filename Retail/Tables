@@ -1,0 +1,165 @@
+-- products table
+create table products
+(
+  prodid     int,
+  pname      varchar2(200),
+  category   varchar2(200),
+  price      number,
+  constraint products_pk primary key (prodid)
+);
+
+-- Create 20 Products
+INSERT INTO products (prodid,pname,category,price)
+values (1,'Green Peas','frozen',2.99);
+    
+INSERT INTO products (prodid,pname,category,price)
+values (2,'Dishwashing Liquid','cleaning',1.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (3,'Potatoes','vegis',3.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (4,'Carrots','vegis',0.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (5,'liquid soap','cleaning',2.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (6,'banana','fruits',0.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (7,'strawberry','fruits',3.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (8,'blueberry','fruits',4.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (9,'clorox wipes','cleaning',7.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (10,'face cream','personal goods',5.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (11,'shampoo','personal goods',5.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (12,'milk','poultry',2.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (13,'eggs','poultry',5.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (14,'instant coffee','coffee',6.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (15,'vitamin water','drinks',1.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (16,'evian','drinks',2.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (17,'coke','drinks',6.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (18,'shaving cream','personal goods',5.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (19,'chewing gum','snacks',1.99);
+
+INSERT INTO products (prodid,pname,category,price)
+values (20,'pringles','snacks',2.99);
+
+-- bills table
+create table bills
+(
+  billid     int,
+  billdate   date,
+  custname   varchar2(200),
+  billtotal  number,
+  constraint bills_pk primary key (billid)
+);
+
+-- Insert Bill Data (Create 5 Rows )
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (1,TO_DATE('04-JUL-2019','DD-MON-YYYY'),'aaa',null);
+
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (2,TO_DATE('04/05/2019','DD/MM/YYYY'),'bbb',null);
+
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (3,TO_DATE('04/10/2019','DD/MM/YYYY'),'ccc',null);
+
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (3,TO_DATE('04/18/2019','DD/MM/YYYY'),'ddd',null);
+
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (4,TO_DATE('04/020/2019','DD/MM/YYYY'),'eee',null);
+
+INSERT INTO bills (billid, billdate,custname, billtotal)
+values (5,TO_DATE('04/26/2019','DD/MM/YYYY'),'fff',null);
+
+
+-- billdetails table
+create table billdetails
+(
+  billid          int,
+  billlineid      int,
+  prodid          int,
+  quantity        number,
+  lineitemprice   number,
+  constraint billdetails_pk primary key (billlineid),
+  constraint billid_fk foreign key (billid) references bills(billid),
+  constraint prodid_fk foreign key (prodid) references products(prodid)
+);
+
+declare
+    l_prod_id int;
+    l_prod_name varchar2(100);
+    l_prod_price number;
+    l_prod_cat varchar2(100);
+begin
+   for c1 in 1 .. 10000
+   loop
+      l_prod_id := c1;
+      l_prod_price := round(DBMS_RANDOM.value(1,50),2);
+      l_prod_cat := trunc(DBMS_RANDOM.value(1,20));
+      l_prod_name := DBMS_RANDOM.string('P',10);
+      
+      dbms_output.put_line('prod_id: '||l_prod_id);
+      dbms_output.put_line('prod_cat: '||l_prod_cat);
+      dbms_output.put_line('price: '||l_prod_price);
+      dbms_output.put_line('prod_name: '||l_prod_name);
+      
+      /*
+      insert into products values (
+         l_prod_id     -- prodid
+        ,l_prod_name   -- pname
+        ,l_prod_cat    -- category
+        ,l_prod_price  -- price
+      );
+      */
+   end loop;
+end;
+
+declare
+  l_billid     int;
+  l_billdate   date;
+  l_custname   varchar2(200);
+Begin
+for c2 in 1 .. 10000
+  loop
+    l_billid := c2;
+    l_billdate := SYSDATE + DBMS_RANDOM.value(0,-720);
+    l_custname := DBMS_RANDOM.string('L',10);
+    
+     dbms_output.put_line('l_billid: '||l_billid);
+     dbms_output.put_line('l_billdate: '||l_billdate);
+     dbms_output.put_line('l_custname: '||l_custname);
+    
+    end loop;
+end;
+
+
+
+
+  
